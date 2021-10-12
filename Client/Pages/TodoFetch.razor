@@ -1,0 +1,42 @@
+﻿@page "/fetchtodo"
+@using DockerTraining.Shared
+@inject HttpClient Http
+
+
+<h3>Todo List</h3>  
+<input @bind="newTodoItem" placeholder="Enter an item! I dare you! I double dare you!">  
+<button type="button" @onclick="Save">Save</button>  
+  
+@if (todoList.Count > 0)  
+{  
+  <ul>  
+    @foreach (Item todo in todoList)  
+    {  
+      <li>  
+        <input type="checkbox" @bind="todo.IsComplete" />  
+        <span style="@(todo.IsComplete ? "text-decoration: line-through" : "")">@todo.Title</span>    
+      </li>  
+    }  
+  </ul>  
+}  
+
+@code {
+
+    private List<Item> todoList = new List<Item>(); 
+    private string newTodoItem { get; set; }  
+
+    protected override async Task OnInitializedAsync()
+    {
+        todoList = await Http.GetFromJsonAsync<List<Item>>("Item");
+    }
+
+    private void Save()  
+    {  
+        if (!string.IsNullOrWhiteSpace(newTodoItem))  
+        {  
+            todoList.Add(new Item(newTodoItem));  
+            newTodoItem = string.Empty;  
+        }  
+    } 
+
+}
