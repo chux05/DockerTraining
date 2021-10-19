@@ -10,13 +10,13 @@ using DockerTraining.Server.Data;
 namespace DockerTraining.Server.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class ItemController : ControllerBase
     {
         private readonly ILogger<ItemController> _logger;
-        private readonly ItemRepo itemRepo;
+        private IItemRepo itemRepo;
 
-        public ItemController(ILogger<ItemController> logger, ItemRepo _itemRepo) 
+        public ItemController(ILogger<ItemController> logger, IItemRepo _itemRepo) 
         {
             _logger = logger;
             itemRepo = _itemRepo;
@@ -25,7 +25,7 @@ namespace DockerTraining.Server.Controllers
         [HttpGet]
         public IEnumerable<Item> GetItems()
         {
-            return itemRepo.GetAllItems();
+            return itemRepo.GetAllItems().ToList();
         }
 
         [HttpGet("{id}")]
@@ -38,6 +38,7 @@ namespace DockerTraining.Server.Controllers
         public void CreateItem(Item item)
         {
             itemRepo.CreateItem(item);
+            itemRepo.SaveChanges();
         }
     }
 }

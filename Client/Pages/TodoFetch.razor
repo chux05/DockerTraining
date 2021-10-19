@@ -22,21 +22,22 @@
 
 @code {
 
-    private List<Item> todoList = new List<Item>(); 
-    private string newTodoItem { get; set; }  
+    private List<Item> todoList = new List<Item>();
+    private string newTodoItem { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        todoList = await Http.GetFromJsonAsync<List<Item>>("Item");
+        todoList = await Http.GetFromJsonAsync<List<Item>>("api/Item");
     }
 
-    private void Save()  
-    {  
-        if (!string.IsNullOrWhiteSpace(newTodoItem))  
-        {  
-            todoList.Add(new Item(newTodoItem));  
-            newTodoItem = string.Empty;  
-        }  
-    } 
+    private async Task Save()
+    {
+        if (!string.IsNullOrWhiteSpace(newTodoItem))
+        {
+            todoList.Add(new Item(newTodoItem));
+            await Http.PostAsJsonAsync("api/Item", new Item(newTodoItem));
+            newTodoItem = string.Empty;
+        }
+    }
 
 }

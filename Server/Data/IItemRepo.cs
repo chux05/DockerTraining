@@ -15,5 +15,7 @@ namespace DockerTraining.Server.Data
 
         void CreateItem(Item item);
 
+        public bool SaveChanges();
+
     }
 }
