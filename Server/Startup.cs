@@ -34,9 +34,9 @@ namespace DockerTraining.Server
 
             services.AddDbContext<AppDbContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("sqlConnection"));
-                //options.UseSqlServer($"Server=localhost, 1433;Database=ItemsDb;User=SA;Password=Pa55word1;"); //local db container
-                //options.UseSqlServer($"Server=db;Database=ItemsDb;User=SA;Password=Pa55word1;"); // DockerCompose
+                //options.UseSqlServer(Configuration.GetConnectionString("sqlConnection"));
+                //options.UseSqlServer($"Server=localhost, 1433;Database=ItemsDb;User=SA;Password=P@ssword1;"); //local db container
+                options.UseSqlServer($"Server=db;Database=ItemsDb;User=SA;Password=Pa55word1;"); // DockerCompose
             });
 
             services.AddControllersWithViews();
